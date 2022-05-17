@@ -19,6 +19,13 @@
     0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
+.ButtonBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
 .Button:hover,
 .Button:focus {
   background-color: #303f9f;
