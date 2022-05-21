@@ -16,18 +16,23 @@ export class App extends Component {
     isLoading: false,
     showModal: false,
     largeImgURL: '',
+    page: 1,
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { query } = this.state;
+    const { query, page } = this.state;
     apiService.query = query;
-
     if (prevState.query !== query) {
       this.onFetchImage();
+    }
+
+    if (prevState.page !== page) {
+      this.onLoadImage();
     }
   }
 
   onSearch = newQuery => {
+    apiService.resetPage();
     this.setState({
       query: newQuery,
     });
@@ -43,7 +48,7 @@ export class App extends Component {
     this.setState({
       largeImgURL: this.state.imageArr.find(
         img => img.webformatURL === event.target.src
-      ).largeImageURL,
+      ).largeImgURL,
     });
   };
 
@@ -52,7 +57,12 @@ export class App extends Component {
 
     try {
       const imageArr = await apiService.fetchImage();
-      this.setState({ imageArr });
+      this.setState({
+        imageArr: imageArr.map(({ id, webformatURL }) => ({
+          id,
+          webformatURL,
+        })),
+      });
     } catch (error) {
       this.setState({ error });
     } finally {
@@ -60,19 +70,27 @@ export class App extends Component {
     }
   };
 
-  onLoadMore = async () => {
-    this.setState({ isLoading: true });
+  onLoadImage = async () => {
+    // this.setState({ isLoading: true });
 
     try {
       const imageArr = await apiService.fetchImage();
       this.setState(prevState => ({
-        imageArr: [...prevState.imageArr, ...imageArr],
+        imageArr: [
+          ...prevState.imageArr,
+          ...imageArr.map(({ id, webformatURL }) => ({
+            id,
+            webformatURL,
+          })),
+        ],
       }));
     } catch (error) {
       this.setState({ error });
-    } finally {
-      this.setState({ isLoading: false });
     }
+  };
+
+  onLoadMore = () => {
+    this.setState(prevState => ({ page: (prevState.page += 1) }));
   };
 
   render() {
@@ -81,19 +99,19 @@ export class App extends Component {
       <>
         <Searchbar onSubmit={this.onSearch} />
 
-        {
+        {imageArr.length >= 12 && (
           <ImageGallery
             onClickImg={this.onClickImg}
             images={imageArr}
             onToggleModal={this.onToggleModal}
           />
-        }
+        )}
         {showModal && (
           <Modal onToggleModal={this.onToggleModal} img={largeImgURL} />
         )}
         {isLoading && <Loader />}
-        {imageArr.length >= 12 && (
-          <Button onLoadMore={this.onLoadMore} loading={isLoading} />
+        {imageArr.length >= 12 && !isLoading && (
+          <Button onLoadMore={this.onLoadMore} />
         )}
       </>
     );

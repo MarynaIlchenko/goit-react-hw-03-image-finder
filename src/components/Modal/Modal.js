@@ -40,5 +40,5 @@ export class Modal extends Component {
 
 Modal.propTypes = {
   onToggleModal: PropTypes.func.isRequired,
-  img: PropTypes.string.isRequired,
+  img: PropTypes.string,
 };
