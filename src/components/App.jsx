@@ -25,9 +25,7 @@ export class App extends Component {
 
     if (prevState.query !== query) {
       this.onFetchImage();
-    }
-
-    if (prevState.page !== page) {
+    } else if (prevState.page !== page) {
       this.onLoadImage();
     }
   }
@@ -54,7 +52,7 @@ export class App extends Component {
   };
 
   onFetchImage = async () => {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, page: 1 });
 
     try {
       const imageArr = await apiService.fetchImage();
