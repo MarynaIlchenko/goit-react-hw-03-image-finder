@@ -8,7 +8,7 @@ const modalRoot = document.querySelector('#modal-root');
 export class Modal extends Component {
   static = {
     onToggleModal: PropTypes.func.isRequired,
-    img: PropTypes.string,
+    img: PropTypes.string.isRequired,
   };
   componentDidMount() {
     window.addEventListener('keydown', this.onCloseModal);

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import style from './Searchbar.module.css';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 // import { render } from '@testing-library/react';
 
 export class Searchbar extends Component {
-  static propTypes = {
+  static = {
     onSubmit: PropTypes.func.isRequired,
   };
 
@@ -13,18 +13,24 @@ export class Searchbar extends Component {
     value: '',
   };
 
+  handleSubmit = event => {
+    event.preventDefault();
+    // if (!this.state.value) {
+    //   alert('Empty value');
+    //   return;
+    // }
+    this.props.onSubmit(this.state.value);
+    // this.setState({ value: '' });
+    this.onReset(event);
+  };
+
   handleNameChange = event => {
     this.setState({ value: event.currentTarget.value.toLowerCase() });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    if (!this.state.value) {
-      alert('Empty value');
-      return;
-    }
-    this.props.onSubmit(this.state.value);
+  onreset = event => {
     this.setState({ value: '' });
+    event.target.reset();
   };
 
   render() {

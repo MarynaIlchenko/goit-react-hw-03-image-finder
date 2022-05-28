@@ -21,7 +21,8 @@ export class ApiService {
   }
 
   resetPage() {
-    this.page += 1;
+    // this.page += 1;
+    this.page = 1;
   }
 
   get query() {
