@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import style from './Searchbar.module.css';
 import PropTypes from 'prop-types';
 
@@ -28,7 +28,13 @@ export class Searchbar extends Component {
     this.setState({ value: event.currentTarget.value.toLowerCase() });
   };
 
-  onreset = event => {
+  // handleNameChange = event => {
+  //   this.setState({
+  //     value: event.currentTarget.value,
+  //   });
+  // };
+
+  onReset = event => {
     this.setState({ value: '' });
     event.target.reset();
   };

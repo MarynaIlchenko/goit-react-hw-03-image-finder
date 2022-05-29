@@ -52,7 +52,7 @@ export class App extends Component {
   };
 
   onFetchImage = async () => {
-    this.setState({ isLoading: true, page: 1 });
+    this.setState({ isLoading: true });
 
     try {
       const imageArr = await apiService.fetchImage();
